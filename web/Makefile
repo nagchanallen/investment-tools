@@ -9,3 +9,7 @@ dev:
 .PHONY: lint
 lint:
 	yarn lint
+
+.PHONY: format
+format:
+	yarn format
