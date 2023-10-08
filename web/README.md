@@ -2,11 +2,6 @@
 
 We use React for website development.
 
-### Requirements
-
-1. node.js v20+
-2. yarn
-
 ## Development
 
 ### Development Setup
