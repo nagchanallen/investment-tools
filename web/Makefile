@@ -1,9 +1,13 @@
-.PHONY: setup
-setup:
+.PHONY: vendor
+vendor:
 	yarn
 
+.PHONY: setup
+setup: vendor
+	cp .env.example .env
+
 .PHONY: dev
-dev:
+dev: vendor
 	yarn dev
 
 .PHONY: lint
