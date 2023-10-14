@@ -20,5 +20,9 @@ jobs:
           node-version: '20.x'
       - name: Install dependencies
         run: yarn --frozen-lockfile
+      - name: Run Linter
+        run: yarn lint
+      - name: Check Format
+        run: yarn format-check
       - name: Build
         run: yarn build
