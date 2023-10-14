@@ -10,9 +10,16 @@ We use React for website development.
 make setup
 ```
 
+### Config
+
+You need to fill environment variables in `.env` to start the website for development
+
+For firebase config, fill in variables with prefix `APP_FIREBASE`.
+
 ### Run React App for development
 
 ```
+make vendor
 make dev
 ```
 
