@@ -7,14 +7,9 @@ import { AuthContext } from '../providers/AuthProvider'
 const HomeScreen = (): ReactElement => {
   const navigate = useNavigate()
 
-  const { user, signOut } = useContext(AuthContext) ?? {}
+  const { user, signOut } = useContext(AuthContext)
 
   const onSignOutButtonClick = useCallback(async () => {
-    if (!signOut) {
-      // TODO: Handle auth context undefined
-      return
-    }
-
     try {
       await signOut?.()
       navigate('/sign-in')

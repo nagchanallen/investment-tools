@@ -13,13 +13,9 @@ const SignInCard = (props: Props): ReactElement => {
 
   const navigate = useNavigate()
 
-  const { signInGoogle } = useContext(AuthContext) ?? {}
+  const { signInGoogle } = useContext(AuthContext)
 
   const onSignInGoogleButtonClick = useCallback(async () => {
-    if (!signInGoogle) {
-      // TODO: Handle auth context undefined
-      return
-    }
     try {
       await signInGoogle()
       navigate('/home')

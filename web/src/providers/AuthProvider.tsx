@@ -24,7 +24,8 @@ export interface IAuthContext {
   signOut: () => Promise<void>
 }
 
-export const AuthContext = createContext<IAuthContext | undefined>(undefined)
+// We assume there is a global auth provider in the main function level
+export const AuthContext = createContext<IAuthContext>(undefined!)
 
 const AuthProvider = (props: PropsWithChildren): ReactElement => {
   const { children } = props
