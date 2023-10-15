@@ -6,6 +6,7 @@ import { initializeApp } from 'firebase/app'
 import './index.css'
 import Config from './config'
 import { routes } from './routes'
+import AuthProvider from './providers/AuthProvider'
 
 initializeApp(Config.firebase)
 
@@ -13,6 +14,8 @@ const router = createBrowserRouter(routes)
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </React.StrictMode>
 )
