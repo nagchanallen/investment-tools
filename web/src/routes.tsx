@@ -2,7 +2,8 @@ import { RouteObject } from 'react-router-dom'
 
 import Root from './Root'
 import ErrorScreen from './screens/ErrorScreen'
-import LoginScreen from './screens/Login/LoginScreen'
+import SignInScreen from './screens/SignIn/SignInScreen'
+import HomeScreen from './screens/HomeScreen'
 
 export const routes: RouteObject[] = [
   {
@@ -11,8 +12,12 @@ export const routes: RouteObject[] = [
     errorElement: <ErrorScreen />,
     children: [
       {
-        path: 'login',
-        element: <LoginScreen />,
+        path: 'sign-in',
+        element: <SignInScreen />,
+      },
+      {
+        path: 'home',
+        element: <HomeScreen />,
       },
     ],
   },
