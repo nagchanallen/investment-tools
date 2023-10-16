@@ -3,6 +3,7 @@ import { Button, Card } from 'flowbite-react'
 import { useNavigate } from 'react-router-dom'
 
 import { AuthContext } from '../../providers/AuthProvider'
+import { paths } from '../../paths'
 
 interface Props {
   className?: string
@@ -18,7 +19,7 @@ const SignInCard = (props: Props): ReactElement => {
   const onSignInGoogleButtonClick = useCallback(async () => {
     try {
       await signInGoogle()
-      navigate('/home')
+      navigate(paths.Home, { replace: true })
     } catch (e) {
       // TODO: Handle Sign In Error
       console.error(e)
