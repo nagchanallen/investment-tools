@@ -1,23 +1,33 @@
-import { RouteObject } from 'react-router-dom'
+import { Navigate, RouteObject } from 'react-router-dom'
 
 import Root from './Root'
 import ErrorScreen from './screens/ErrorScreen'
 import SignInScreen from './screens/SignIn/SignInScreen'
 import HomeScreen from './screens/HomeScreen'
+import ProtectedRoute from './components/ProtectedRoute'
+import { paths } from './paths'
 
 export const routes: RouteObject[] = [
   {
-    path: '/',
+    path: paths.Root,
+    element: <Navigate to={paths.Home} replace={true} />,
+  },
+  {
     element: <Root />,
     errorElement: <ErrorScreen />,
     children: [
       {
-        path: 'sign-in',
+        path: paths.SignIn,
         element: <SignInScreen />,
       },
       {
-        path: 'home',
-        element: <HomeScreen />,
+        element: <ProtectedRoute />,
+        children: [
+          {
+            path: paths.Home,
+            element: <HomeScreen />,
+          },
+        ],
       },
     ],
   },
