@@ -2,18 +2,21 @@ import { ReactElement, useCallback, useContext } from 'react'
 import { Button } from 'flowbite-react'
 
 import { AuthContext } from '../providers/AuthProvider'
+import useErrorDialog from '../hooks/useErrorDialog'
 
 const HomeScreen = (): ReactElement => {
   const { user, signOut } = useContext(AuthContext)
+
+  const { showError } = useErrorDialog()
 
   const onSignOutButtonClick = useCallback(async () => {
     try {
       await signOut?.()
     } catch (e) {
-      // TODO: Handle Sign Out Error
       console.error(e)
+      showError('Sign Out Error')
     }
-  }, [signOut])
+  }, [showError, signOut])
 
   return (
     <div>
