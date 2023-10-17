@@ -1,35 +1,18 @@
-import { ReactElement, useCallback, useContext } from 'react'
+import { ReactElement } from 'react'
 import { Button, Card } from 'flowbite-react'
-import { useNavigate } from 'react-router-dom'
-
-import { AuthContext } from '../../providers/AuthProvider'
-import { paths } from '../../paths'
 
 interface Props {
   className?: string
+  signInGoogle: () => Promise<void>
 }
 
 const SignInCard = (props: Props): ReactElement => {
-  const { className } = props
-
-  const navigate = useNavigate()
-
-  const { signInGoogle } = useContext(AuthContext)
-
-  const onSignInGoogleButtonClick = useCallback(async () => {
-    try {
-      await signInGoogle()
-      navigate(paths.Home, { replace: true })
-    } catch (e) {
-      // TODO: Handle Sign In Error
-      console.error(e)
-    }
-  }, [navigate, signInGoogle])
+  const { className, signInGoogle } = props
 
   return (
     <Card className={className}>
       <h5>Sign In</h5>
-      <Button onClick={onSignInGoogleButtonClick} color="light">
+      <Button onClick={signInGoogle} color="light">
         Sign In with Google
       </Button>
     </Card>
