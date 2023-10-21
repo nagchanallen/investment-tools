@@ -1,6 +1,6 @@
 import { ReactElement, useCallback, useContext } from 'react'
 import classNames from 'classnames'
-import { useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 
 import { paths } from '../../paths'
 import { AuthContext } from '../../providers/AuthProvider'
@@ -21,6 +21,10 @@ const SignInScreen = (): ReactElement => {
       showError('Google Sign In Error. Please try again.')
     }
   }, [authContext, navigate, showError])
+
+  if (authContext.user) {
+    return <Navigate to={paths.Home} replace={true} />
+  }
 
   return (
     <div
