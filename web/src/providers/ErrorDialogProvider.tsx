@@ -1,5 +1,4 @@
 import { Button, Modal } from 'flowbite-react'
-import { ModalHeader } from 'flowbite-react/lib/esm/components/Modal/ModalHeader'
 import {
   ReactElement,
   createContext,
@@ -50,7 +49,7 @@ const ErrorDialogProvider = (props: React.PropsWithChildren): ReactElement => {
         dismissible={true}
         onClose={dismiss}
       >
-        <ModalHeader className="text-center font-bold">Error</ModalHeader>
+        <Modal.Header className="text-center font-bold">Error</Modal.Header>
         <Modal.Body>
           <div className="flex flex-col justify-between text-center">
             <p className="pb-6">{message}</p>
