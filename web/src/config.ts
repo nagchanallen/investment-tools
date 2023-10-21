@@ -8,6 +8,9 @@ const Config = {
     appId: import.meta.env.APP_FIREBASE_APP_ID,
     measurementId: import.meta.env.APP_FIREBASE_MEASUREMENT_ID,
   },
+  sentry: {
+    dsn: import.meta.env.APP_SENTRY_DSN,
+  },
 }
 
 export default Config
