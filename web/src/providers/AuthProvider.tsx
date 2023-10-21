@@ -19,7 +19,8 @@ import {
 type User = FirebaseUser
 
 export interface IAuthContext {
-  user: User | null
+  isInitialized: boolean
+  user: User | null | undefined
   signInGoogle: () => Promise<UserCredential>
   signOut: () => Promise<void>
 }
@@ -30,7 +31,10 @@ export const AuthContext = createContext<IAuthContext>(undefined!)
 const AuthProvider = (props: PropsWithChildren): ReactElement => {
   const { children } = props
 
-  const [currentUser, setCurrentUser] = useState<IAuthContext['user']>(null)
+  const [currentUser, setCurrentUser] =
+    useState<IAuthContext['user']>(undefined)
+
+  const isInitialized = currentUser !== undefined
 
   const auth = getAuth()
 
@@ -45,18 +49,23 @@ const AuthProvider = (props: PropsWithChildren): ReactElement => {
   }, [auth])
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user)
     })
+
+    return () => {
+      unsubscribe()
+    }
   }, [auth])
 
   const contextValue = useMemo(
     () => ({
+      isInitialized,
       user: currentUser,
       signInGoogle,
       signOut,
     }),
-    [currentUser, signInGoogle, signOut]
+    [isInitialized, currentUser, signInGoogle, signOut]
   )
 
   return (
