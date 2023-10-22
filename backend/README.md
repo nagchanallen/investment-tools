@@ -37,3 +37,9 @@ curl http://localhost:8000/ping
 ```
 make lint
 ```
+
+### Format
+
+```
+make format
+```
