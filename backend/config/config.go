@@ -3,7 +3,7 @@ package config
 import "github.com/spf13/viper"
 
 type Config struct {
-	FirebaseAdminSDKCredentialsFile string `mapstructure:"FIREBASE_ADMINSDK_CREDENTIALS_FILE"`
+	FirebaseAdminSDKCredentialsFile string `mapstructure:"FIREBASE_ADMIN_SDK_CREDENTIALS_FILE"`
 	SentryDSN                       string `mapstructure:"SENTRY_DSN"`
 }
 
