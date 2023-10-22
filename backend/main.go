@@ -7,6 +7,7 @@ import (
 	"context"
 
 	firebase "firebase.google.com/go/v4"
+	"github.com/getsentry/sentry-go"
 	"github.com/nagchanallen/investment-tools/api"
 	"github.com/nagchanallen/investment-tools/config"
 	"google.golang.org/api/option"
@@ -17,6 +18,15 @@ func main() {
 	config, err := config.LoadConfig(configPath)
 	if (err != nil) {
 		log.Fatalf("Error loading environment variable file from %v:\n %v", configPath, err)
+	}
+
+	err = sentry.Init(sentry.ClientOptions{
+		Dsn: config.SentryDSN,
+		TracesSampleRate: 1.0,
+	})
+
+	if err != nil {
+		log.Fatalf("Error initializing sentry:\n %v", err)
 	}
 
 	ctx := context.Background()
