@@ -11,17 +11,17 @@ import (
 	"github.com/nagchanallen/investment-tools/api"
 	"github.com/nagchanallen/investment-tools/config"
 	"google.golang.org/api/option"
-) 
+)
 
 func main() {
 	configPath := os.Getenv("APP_CONFIG_PATH")
 	config, err := config.LoadConfig(configPath)
-	if (err != nil) {
+	if err != nil {
 		log.Fatalf("Error loading environment variable file from %v:\n %v", configPath, err)
 	}
 
 	err = sentry.Init(sentry.ClientOptions{
-		Dsn: config.SentryDSN,
+		Dsn:              config.SentryDSN,
 		TracesSampleRate: 1.0,
 	})
 
@@ -33,7 +33,7 @@ func main() {
 
 	opt := option.WithCredentialsFile(config.FirebaseAdminSDKCredentialsFile)
 	_, err = firebase.NewApp(ctx, nil, opt)
-	if (err != nil) {
+	if err != nil {
 		log.Fatalf("Error ititializing app:\n %v", err)
 	}
 

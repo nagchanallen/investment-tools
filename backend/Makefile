@@ -10,6 +10,10 @@ vendor:
 setup: vendor
 	cp .env.example .env
 
+.PHONY: format
+format:
+	go fmt ./...
+
 .PHONY: dev
 dev: vendor
 	APP_CONFIG_PATH=${APP_CONFIG_PATH} GIN_MODE=${GIN_MODE} PORT=${PORT} go run main.go
