@@ -39,5 +39,9 @@ func main() {
 
 	r := api.SetUpRouter()
 
-	r.Run()
+	err = r.Run()
+
+	if err != nil {
+		log.Fatalf("Error running server:\n %v", err)
+	}
 }
