@@ -1,20 +1,47 @@
 package main
 
 import (
-	"net/http"
+	"log"
+	"os"
 
-	"github.com/gin-gonic/gin"
-) 
+	"context"
+
+	firebase "firebase.google.com/go/v4"
+	"github.com/getsentry/sentry-go"
+	"github.com/nagchanallen/investment-tools/api"
+	"github.com/nagchanallen/investment-tools/config"
+	"google.golang.org/api/option"
+)
 
 func main() {
-	r := gin.Default()
+	configPath := os.Getenv("APP_CONFIG_PATH")
+	config, err := config.LoadConfig(configPath)
+	if err != nil {
+		log.Fatalf("Error loading environment variable file from %v:\n %v", configPath, err)
+	}
 
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "pong",
-		})
+	err = sentry.Init(sentry.ClientOptions{
+		Dsn:              config.SentryDSN,
+		TracesSampleRate: 1.0,
 	})
 
-	r.Run()
-}
+	if err != nil {
+		log.Fatalf("Error initializing sentry:\n %v", err)
+	}
 
+	ctx := context.Background()
+
+	opt := option.WithCredentialsFile(config.FirebaseAdminSDKCredentialsFile)
+	_, err = firebase.NewApp(ctx, nil, opt)
+	if err != nil {
+		log.Fatalf("Error ititializing app:\n %v", err)
+	}
+
+	r := api.SetUpRouter()
+
+	err = r.Run()
+
+	if err != nil {
+		log.Fatalf("Error running server:\n %v", err)
+	}
+}
