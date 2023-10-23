@@ -1,7 +1,13 @@
 package controllers
 
 import (
+	"errors"
+	"net/http"
+	"time"
+
+	"firebase.google.com/go/v4/auth"
 	"github.com/gin-gonic/gin"
+	models "github.com/nagchanallen/investment-tools/models/portfolio"
 	"github.com/nagchanallen/investment-tools/services"
 )
 
@@ -13,12 +19,66 @@ type IPortfolioController interface {
 }
 
 type PortfolioController struct {
-	services.IPortfolioService
+	PortfolioService services.IPortfolioService
+}
+
+func validateStockTransactionAction(action string) bool {
+	switch action {
+	case "BUY", "SELL":
+		return true
+	default:
+		return false
+	}
 }
 
 func (c *PortfolioController) GetStockTransactions(ctx *gin.Context) {}
 
-func (c *PortfolioController) CreateStockTransaction(ctx *gin.Context) {}
+type CreateStockTransactionRequest struct {
+	Code       string    `json:"code" binding:"required"`
+	Action     string    `json:"action" binding:"required"`
+	Date       time.Time `json:"date" binding:"required"`
+	Amount     int64     `json:"amount" binding:"required"`
+	Price      float64   `json:"price" binding:"required"`
+	Commission float64   `json:"commission"`
+	Remark     string    `json:"remark"`
+}
+
+func (c *PortfolioController) CreateStockTransaction(ctx *gin.Context) {
+	authToken := ctx.MustGet("AuthToken").(*auth.Token)
+
+	var request CreateStockTransactionRequest
+	if err := ctx.ShouldBindJSON(&request); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if !validateStockTransactionAction(request.Action) {
+		err := errors.New("invalid stock transaction action")
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	stockTransaction := models.StockTransaction{
+		Code:       request.Code,
+		Action:     request.Action,
+		Date:       request.Date,
+		Amount:     request.Amount,
+		Price:      request.Price,
+		Commission: request.Commission,
+		Remark:     request.Remark,
+	}
+
+	stockTransaction.GenerateID()
+	stockTransaction.UpdateUpdatedAt()
+
+	err := c.PortfolioService.CreateStockTransaction(ctx, authToken.UID, stockTransaction)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusCreated, gin.H{"id": stockTransaction.Id})
+}
 
 func (c *PortfolioController) UpdateStockTransaction(ctx *gin.Context) {}
 

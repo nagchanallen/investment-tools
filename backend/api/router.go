@@ -4,14 +4,13 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/nagchanallen/investment-tools/controllers"
 )
 
 func (s *Server) SetUpRouter() {
 	r := gin.Default()
 
-	controllerContainer := controllers.MakeControllerContainer(s.Db)
-	portfolioRouter := r.Group("/portfolio")
+	controllerContainer := MakeControllerContainer(s.Db)
+	portfolioRouter := r.Group("/portfolio").Use(Authorizer(s.Auth))
 	{
 		portfolioRouter.GET("/stock-transactions", controllerContainer.PortfolioController.GetStockTransactions)
 		portfolioRouter.POST("/stock-transaction", controllerContainer.PortfolioController.CreateStockTransaction)

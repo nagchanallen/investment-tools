@@ -1,34 +1,36 @@
 package services
 
 import (
-	"github.com/google/uuid"
+	"context"
+
 	models "github.com/nagchanallen/investment-tools/models/portfolio"
 	repositories "github.com/nagchanallen/investment-tools/repositories/portfolio"
 )
 
 type IPortfolioService interface {
-	GetStockTransactions(page int64, perPage int64, orderBy string) ([]models.StockTransaction, error)
-	CreateStockTransaction(models.StockTransaction) (uuid.UUID, error)
-	UpdateStockTransaction(models.StockTransaction) error
-	DeleteStockTransaction(uuid.UUID) error
+	GetStockTransactions(ctx context.Context, userId string, page int64, perPage int64, orderBy string) ([]models.StockTransaction, error)
+	CreateStockTransaction(ctx context.Context, userId string, stockTransaction models.StockTransaction) error
+	UpdateStockTransaction(ctx context.Context, userId string, stockTransaction models.StockTransaction) error
+	DeleteStockTransaction(ctx context.Context, userId string, transactionId string) error
 }
 
 type PortfolioService struct {
-	repositories.IStockTransactionRepository
+	StockTransactionRepository repositories.IStockTransactionRepository
 }
 
-func (s *PortfolioService) GetStockTransactions(page int64, perPage int64, orderBy string) ([]models.StockTransaction, error) {
+func (s *PortfolioService) GetStockTransactions(ctx context.Context, userId string, page int64, perPage int64, orderBy string) ([]models.StockTransaction, error) {
 	return nil, nil
 }
 
-func (s *PortfolioService) CreateStockTransaction(models.StockTransaction) (uuid.UUID, error) {
-	return uuid.UUID{}, nil
+func (s *PortfolioService) CreateStockTransaction(ctx context.Context, userId string, stockTransaction models.StockTransaction) error {
+	err := s.StockTransactionRepository.CreateStockTransaction(ctx, userId, stockTransaction)
+	return err
 }
 
-func (s *PortfolioService) UpdateStockTransaction(models.StockTransaction) error {
+func (s *PortfolioService) UpdateStockTransaction(ctx context.Context, userId string, stockTransaction models.StockTransaction) error {
 	return nil
 }
 
-func (s *PortfolioService) DeleteStockTransaction(uuid.UUID) error {
+func (s *PortfolioService) DeleteStockTransaction(ctx context.Context, userId string, transactionId string) error {
 	return nil
 }
