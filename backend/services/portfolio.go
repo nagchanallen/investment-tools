@@ -16,7 +16,7 @@ type IPortfolioService interface {
 }
 
 type PortfolioService struct {
-	repositories.IStockTransactionRepository
+	StockTransactionRepository repositories.IStockTransactionRepository
 }
 
 func (s *PortfolioService) GetStockTransactions(ctx *context.Context, userId string, page int64, perPage int64, orderBy string) ([]models.StockTransaction, error) {

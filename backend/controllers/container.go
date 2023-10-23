@@ -12,9 +12,9 @@ type ControllerContainer struct {
 
 func makePortfolioController(db *firestore.Client) *PortfolioController {
 	stockTransactionRepo := repositories.StockTransactionRepository{Db: db}
-	portfolioService := services.PortfolioService{IStockTransactionRepository: &stockTransactionRepo}
+	portfolioService := services.PortfolioService{StockTransactionRepository: &stockTransactionRepo}
 
-	return &PortfolioController{IPortfolioService: &portfolioService}
+	return &PortfolioController{PortfolioService: &portfolioService}
 }
 
 func MakeControllerContainer(db *firestore.Client) *ControllerContainer {

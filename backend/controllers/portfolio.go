@@ -13,7 +13,7 @@ type IPortfolioController interface {
 }
 
 type PortfolioController struct {
-	services.IPortfolioService
+	PortfolioService services.IPortfolioService
 }
 
 func (c *PortfolioController) GetStockTransactions(ctx *gin.Context) {}
