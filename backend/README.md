@@ -8,6 +8,7 @@ We use [gin](https://github.com/gin-gonic/gin) for the web server
 
 1. Get Firebase adminSDK credentials file from firebase console. [Reference](https://firebase.google.com/docs/admin/setup/)
 2. Specify where you put the credentials file in variable `FIREBASE_ADMIN_SDK_CREDENTIALS_FILE` in `.env`. Or you may use the default file path.
+3. Update the firestore rules by replacing with the rules [here](/docs/firebase_rules.md)
 
 ### Sentry
 
