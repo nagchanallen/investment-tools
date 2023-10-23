@@ -11,7 +11,7 @@ func (s *Server) SetUpRouter() {
 	r := gin.Default()
 
 	controllerContainer := controllers.MakeControllerContainer(s.Db)
-	portfolioRouter := r.Group("/portfolio")
+	portfolioRouter := r.Group("/portfolio").Use(Authorizer(s.Auth))
 	{
 		portfolioRouter.GET("/stock-transactions", controllerContainer.PortfolioController.GetStockTransactions)
 		portfolioRouter.POST("/stock-transaction", controllerContainer.PortfolioController.CreateStockTransaction)
