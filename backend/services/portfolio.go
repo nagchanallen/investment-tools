@@ -9,7 +9,7 @@ import (
 
 type IPortfolioService interface {
 	GetStockTransactions(ctx context.Context, userId string, page int64, perPage int64, orderBy string) ([]models.StockTransaction, error)
-	CreateStockTransaction(ctx context.Context, userId string, stockTransaction models.StockTransaction) error
+	CreateStockTransaction(ctx context.Context, userId string, stockTransaction models.StockTransaction) (string, error)
 	UpdateStockTransaction(ctx context.Context, userId string, stockTransaction models.StockTransaction) error
 	DeleteStockTransaction(ctx context.Context, userId string, transactionId string) error
 }
@@ -22,9 +22,12 @@ func (s *PortfolioService) GetStockTransactions(ctx context.Context, userId stri
 	return nil, nil
 }
 
-func (s *PortfolioService) CreateStockTransaction(ctx context.Context, userId string, stockTransaction models.StockTransaction) error {
+func (s *PortfolioService) CreateStockTransaction(ctx context.Context, userId string, stockTransaction models.StockTransaction) (string, error) {
+	stockTransaction.GenerateID()
+	stockTransaction.UpdateUpdatedAt()
+
 	err := s.StockTransactionRepository.CreateStockTransaction(ctx, userId, stockTransaction)
-	return err
+	return stockTransaction.Id, err
 }
 
 func (s *PortfolioService) UpdateStockTransaction(ctx context.Context, userId string, stockTransaction models.StockTransaction) error {
