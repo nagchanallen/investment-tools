@@ -4,10 +4,20 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/nagchanallen/investment-tools/controllers"
 )
 
-func SetUpRouter() *gin.Engine {
+func (s *Server) SetUpRouter() {
 	r := gin.Default()
+
+	controllerContainer := controllers.MakeControllerContainer(s.Db)
+	portfolioRouter := r.Group("/portfolio")
+	{
+		portfolioRouter.GET("/stock-transactions", controllerContainer.PortfolioController.GetStockTransactions)
+		portfolioRouter.POST("/stock-transaction", controllerContainer.PortfolioController.CreateStockTransaction)
+		portfolioRouter.PUT("/stock-transaction", controllerContainer.PortfolioController.UpdateStockTransaction)
+		portfolioRouter.DELETE("/stock-transaction", controllerContainer.PortfolioController.DeleteStockTransaction)
+	}
 
 	// For health check
 	r.GET("/ping", func(c *gin.Context) {
@@ -16,5 +26,5 @@ func SetUpRouter() *gin.Engine {
 		})
 	})
 
-	return r
+	s.Router = r
 }

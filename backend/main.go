@@ -32,14 +32,24 @@ func main() {
 	ctx := context.Background()
 
 	opt := option.WithCredentialsFile(config.FirebaseAdminSDKCredentialsFile)
-	_, err = firebase.NewApp(ctx, nil, opt)
+	firebaseApp, err := firebase.NewApp(ctx, nil, opt)
 	if err != nil {
-		log.Fatalf("Error ititializing app:\n %v", err)
+		log.Fatalf("Error initializing app:\n %v", err)
 	}
 
-	r := api.SetUpRouter()
+	auth, err := firebaseApp.Auth(ctx)
+	if err != nil {
+		log.Fatalf("Error initializing auth:\n %v", err)
+	}
 
-	err = r.Run()
+	db, err := firebaseApp.Firestore(ctx)
+	if err != nil {
+		log.Fatalf("Error initializing firestore:\n %v", err)
+	}
+
+	server := api.NewServer(auth, db)
+
+	err = server.Run()
 
 	if err != nil {
 		log.Fatalf("Error running server:\n %v", err)
