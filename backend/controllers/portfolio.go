@@ -79,4 +79,16 @@ func (c *PortfolioController) CreateStockTransaction(ctx *gin.Context) {
 
 func (c *PortfolioController) UpdateStockTransaction(ctx *gin.Context) {}
 
-func (c *PortfolioController) DeleteStockTransaction(ctx *gin.Context) {}
+func (c *PortfolioController) DeleteStockTransaction(ctx *gin.Context) {
+	authToken := ctx.MustGet("AuthToken").(*auth.Token)
+
+	stockTransactionId := ctx.Param("id")
+
+	err := c.PortfolioService.DeleteStockTransaction(ctx, authToken.UID, stockTransactionId)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{"id": stockTransactionId})
+}

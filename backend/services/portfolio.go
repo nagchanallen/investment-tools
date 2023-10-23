@@ -35,5 +35,6 @@ func (s *PortfolioService) UpdateStockTransaction(ctx context.Context, userId st
 }
 
 func (s *PortfolioService) DeleteStockTransaction(ctx context.Context, userId string, transactionId string) error {
-	return nil
+	err := s.StockTransactionRepository.DeleteStockTransaction(ctx, userId, transactionId)
+	return err
 }

@@ -36,5 +36,9 @@ func (r *StockTransactionRepository) UpdateStockTransaction(ctx context.Context,
 }
 
 func (r *StockTransactionRepository) DeleteStockTransaction(ctx context.Context, userId string, transactionId string) error {
-	return nil
+	_, err := r.Db.Collection("users").Doc(userId).Collection("stock_transactions").Doc(transactionId).Delete(ctx)
+	if err != nil {
+		log.Printf("An error has occurred in DeleteStockTransaction:\n %s", err)
+	}
+	return err
 }
