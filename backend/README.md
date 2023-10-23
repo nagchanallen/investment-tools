@@ -2,23 +2,6 @@
 
 We use [gin](https://github.com/gin-gonic/gin) for the web server
 
-## Setup
-
-### Firebase
-
-1. Get Firebase adminSDK credentials file from firebase console. [Reference](https://firebase.google.com/docs/admin/setup/)
-2. Specify where you put the credentials file in variable `FIREBASE_ADMIN_SDK_CREDENTIALS_FILE` in `.env`. Or you may use the default file path.
-3. Update the firestore rules by replacing with the rules [here](/docs/firebase_rules.md)
-
-### Sentry
-
-For Sentry config, fill in DSN in `SENTRY_DSN`.
-
-### Linter (golangci-lint)
-
-We use [golangci-lint](https://golangci-lint.run/) for linter.
-If you want to run linter on local machine. Please follow [this link](https://golangci-lint.run/usage/install/) for installation.
-
 ## Development
 
 ### Start Development Server
@@ -33,14 +16,11 @@ Verify the server is running by
 curl http://localhost:8000/ping
 ```
 
-### Lint
+### Format and Lint
 
-```
-make lint
-```
-
-### Format
+Before committing the code, run format and linter first and fix the issues:
 
 ```
 make format
+make lint
 ```
