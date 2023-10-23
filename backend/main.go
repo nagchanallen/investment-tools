@@ -21,8 +21,10 @@ func main() {
 	}
 
 	err = sentry.Init(sentry.ClientOptions{
-		Dsn:              config.SentryDSN,
-		TracesSampleRate: 1.0,
+		Dsn:                config.SentryDSN,
+		EnableTracing:      true,
+		TracesSampleRate:   1.0,
+		ProfilesSampleRate: 1.0,
 	})
 
 	if err != nil {
