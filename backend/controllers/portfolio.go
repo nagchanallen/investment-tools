@@ -78,7 +78,7 @@ func (c *PortfolioController) CreateStockTransaction(ctx *gin.Context) {
 }
 
 type UpdateStockTransactionRequest struct {
-	Id		   string    `json:"id" binding:"required"`
+	Id         string    `json:"id" binding:"required"`
 	Code       string    `json:"code" binding:"required"`
 	Action     string    `json:"action" binding:"required"`
 	Date       time.Time `json:"date" binding:"required"`
