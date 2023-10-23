@@ -68,16 +68,13 @@ func (c *PortfolioController) CreateStockTransaction(ctx *gin.Context) {
 		Remark:     request.Remark,
 	}
 
-	stockTransaction.GenerateID()
-	stockTransaction.UpdateUpdatedAt()
-
-	err := c.PortfolioService.CreateStockTransaction(ctx, authToken.UID, stockTransaction)
+	stockTransactionId, err := c.PortfolioService.CreateStockTransaction(ctx, authToken.UID, stockTransaction)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	ctx.JSON(http.StatusCreated, gin.H{"id": stockTransaction.Id})
+	ctx.JSON(http.StatusCreated, gin.H{"id": stockTransactionId})
 }
 
 func (c *PortfolioController) UpdateStockTransaction(ctx *gin.Context) {}
