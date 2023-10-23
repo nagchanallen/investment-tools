@@ -15,7 +15,7 @@ func (s *Server) SetUpRouter() {
 		portfolioRouter.GET("/stock-transactions", controllerContainer.PortfolioController.GetStockTransactions)
 		portfolioRouter.POST("/stock-transaction", controllerContainer.PortfolioController.CreateStockTransaction)
 		portfolioRouter.PUT("/stock-transaction", controllerContainer.PortfolioController.UpdateStockTransaction)
-		portfolioRouter.DELETE("/stock-transaction", controllerContainer.PortfolioController.DeleteStockTransaction)
+		portfolioRouter.DELETE("/stock-transaction/:id", controllerContainer.PortfolioController.DeleteStockTransaction)
 	}
 
 	// For health check

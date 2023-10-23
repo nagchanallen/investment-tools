@@ -31,9 +31,13 @@ func (s *PortfolioService) CreateStockTransaction(ctx context.Context, userId st
 }
 
 func (s *PortfolioService) UpdateStockTransaction(ctx context.Context, userId string, stockTransaction models.StockTransaction) error {
-	return nil
+	stockTransaction.UpdateUpdatedAt()
+
+	err := s.StockTransactionRepository.UpdateStockTransaction(ctx, userId, stockTransaction)
+	return err
 }
 
 func (s *PortfolioService) DeleteStockTransaction(ctx context.Context, userId string, transactionId string) error {
-	return nil
+	err := s.StockTransactionRepository.DeleteStockTransaction(ctx, userId, transactionId)
+	return err
 }
