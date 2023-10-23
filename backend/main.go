@@ -48,7 +48,8 @@ func main() {
 	}
 
 	server := api.NewServer(auth, db)
-	server.Run()
+
+	err = server.Run()
 
 	if err != nil {
 		log.Fatalf("Error running server:\n %v", err)
