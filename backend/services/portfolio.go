@@ -7,8 +7,16 @@ import (
 	repositories "github.com/nagchanallen/investment-tools/repositories/portfolio"
 )
 
+type GetStockTransactionsServiceArgs struct {
+	UserId        string
+	OrderBy       string
+	SortDirection string
+	Limit         int
+	Cursor        string
+}
+
 type IPortfolioService interface {
-	GetStockTransactions(ctx context.Context, userId string, page int64, perPage int64, orderBy string) ([]models.StockTransaction, error)
+	GetStockTransactions(ctx context.Context, args GetStockTransactionsServiceArgs) ([]models.StockTransaction, string, int64, error)
 	CreateStockTransaction(ctx context.Context, userId string, stockTransaction models.StockTransaction) (string, error)
 	UpdateStockTransaction(ctx context.Context, userId string, stockTransaction models.StockTransaction) error
 	DeleteStockTransaction(ctx context.Context, userId string, transactionId string) error
@@ -18,8 +26,18 @@ type PortfolioService struct {
 	StockTransactionRepository repositories.IStockTransactionRepository
 }
 
-func (s *PortfolioService) GetStockTransactions(ctx context.Context, userId string, page int64, perPage int64, orderBy string) ([]models.StockTransaction, error) {
-	return nil, nil
+func (s *PortfolioService) GetStockTransactions(ctx context.Context, args GetStockTransactionsServiceArgs) ([]models.StockTransaction, string, int64, error) {
+	GetStockTransactionsServiceArgs := repositories.GetStockTransactionsRepositoryArgs{
+		UserId:        args.UserId,
+		OrderBy:       args.OrderBy,
+		SortDirection: args.SortDirection,
+		Limit:         args.Limit,
+		Cursor:        args.Cursor,
+	}
+
+	stockTransactions, nextCursor, totalCount, err := s.StockTransactionRepository.GetStockTransactions(ctx, GetStockTransactionsServiceArgs)
+
+	return stockTransactions, nextCursor, totalCount, err
 }
 
 func (s *PortfolioService) CreateStockTransaction(ctx context.Context, userId string, stockTransaction models.StockTransaction) (string, error) {

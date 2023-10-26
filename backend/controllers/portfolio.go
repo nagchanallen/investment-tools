@@ -31,7 +31,54 @@ func validateStockTransactionAction(action string) bool {
 	}
 }
 
-func (c *PortfolioController) GetStockTransactions(ctx *gin.Context) {}
+type GetStockTransactionsRequest struct {
+	OrderBy       string `json:"orderBy" binding:"required"`
+	SortDirection string `json:"sortDirection" binding:"required"`
+	Limit         int    `json:"limit" binding:"required"`
+	Cursor        string `json:"cursor"`
+}
+
+func validateSortDirection(sortDirection string) bool {
+	switch sortDirection {
+	case "ASC", "DESC":
+		return true
+	default:
+		return false
+	}
+}
+
+func (c *PortfolioController) GetStockTransactions(ctx *gin.Context) {
+	authToken := ctx.MustGet("AuthToken").(*auth.Token)
+
+	var request GetStockTransactionsRequest
+
+	if err := ctx.ShouldBindJSON(&request); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if !validateSortDirection(request.SortDirection) {
+		err := errors.New("invalid sort direction")
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	GetStockTransactionsServiceArgs := services.GetStockTransactionsServiceArgs{
+		UserId:        authToken.UID,
+		OrderBy:       request.OrderBy,
+		SortDirection: request.SortDirection,
+		Limit:         request.Limit,
+		Cursor:        request.Cursor,
+	}
+
+	stockTransactions, nextCursor, totalCount, err := c.PortfolioService.GetStockTransactions(ctx, GetStockTransactionsServiceArgs)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{"data": stockTransactions, "nextCursor": nextCursor, "totalCount": totalCount})
+}
 
 type CreateStockTransactionRequest struct {
 	Code       string    `json:"code" binding:"required"`
