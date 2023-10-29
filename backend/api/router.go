@@ -4,12 +4,23 @@ import (
 	"net/http"
 
 	sentrygin "github.com/getsentry/sentry-go/gin"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
 func (s *Server) SetUpRouter() {
 	r := gin.Default()
 	r.Use(sentrygin.New(sentrygin.Options{}))
+
+	// TODO: Configure CORS properly
+	// we enable CORS for all origins temporarily for smoother development
+	// should be configured properly in production later
+	corsConfig := cors.DefaultConfig()
+	corsConfig.AllowOrigins = []string{"*"}
+	corsConfig.AllowMethods = []string{"GET", "POST", "DELETE", "OPTIONS", "PATCH"}
+	corsConfig.AllowHeaders = []string{"Accept", "Accept-Encoding", "Accept-Language", "Authorization", "Baggage", "Connection", "Content-Type", "Host", "Origin", "Referer", "Sentry-Trace"}
+
+	r.Use(cors.New(corsConfig))
 
 	controllerContainer := MakeControllerContainer(s.Db)
 	portfolioRouter := r.Group("/portfolio").Use(Authorizer(s.Auth))
