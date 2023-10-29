@@ -36,11 +36,13 @@ const AppNavbar = (): ReactElement => {
       </div>
       <Navbar.Collapse>
         {user && (
-          <Link to={paths.Home}>
-            <Navbar.Link active={location.pathname === paths.Home}>
-              Home
-            </Navbar.Link>
-          </Link>
+          <Navbar.Link
+            as={Link}
+            to={paths.Home}
+            active={location.pathname === paths.Home}
+          >
+            Home
+          </Navbar.Link>
         )}
       </Navbar.Collapse>
     </Navbar>
