@@ -3,11 +3,13 @@ package api
 import (
 	"net/http"
 
+	sentrygin "github.com/getsentry/sentry-go/gin"
 	"github.com/gin-gonic/gin"
 )
 
 func (s *Server) SetUpRouter() {
 	r := gin.Default()
+	r.Use(sentrygin.New(sentrygin.Options{}))
 
 	controllerContainer := MakeControllerContainer(s.Db)
 	portfolioRouter := r.Group("/portfolio").Use(Authorizer(s.Auth))
