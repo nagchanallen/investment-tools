@@ -1,11 +1,12 @@
 import { Navigate, RouteObject } from 'react-router-dom'
 
 import Root from './Root'
+import { paths } from './paths'
 import ErrorScreen from './screens/ErrorScreen'
 import SignInScreen from './screens/SignIn/SignInScreen'
 import HomeScreen from './screens/HomeScreen'
+import PortfolioScreen from './screens/Portfolio/PortfolioScreen'
 import ProtectedRoute from './components/ProtectedRoute'
-import { paths } from './paths'
 
 export const routes: RouteObject[] = [
   {
@@ -26,6 +27,10 @@ export const routes: RouteObject[] = [
           {
             path: paths.Home,
             element: <HomeScreen />,
+          },
+          {
+            path: paths.Portfolio,
+            element: <PortfolioScreen />,
           },
         ],
       },

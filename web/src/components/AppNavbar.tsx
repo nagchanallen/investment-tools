@@ -22,27 +22,34 @@ const AppNavbar = (): ReactElement => {
 
   return (
     <Navbar fluid={true} rounded={true}>
-      <Link to={paths.Home}>
-        <Navbar.Brand>
-          <img src="/icon.svg" className="mr-3 h-12" alt="Vite Logo" />
-          <span className="whitespace-nowrap text-xl font-semibold">
-            Investment Tools
-          </span>
-        </Navbar.Brand>
-      </Link>
+      <Navbar.Brand as={Link} to={paths.Home}>
+        <img src="/icon.svg" className="mr-3 h-12" alt="Vite Logo" />
+        <span className="whitespace-nowrap text-xl font-semibold">
+          Investment Tools
+        </span>
+      </Navbar.Brand>
       <div className="flex md:order-2">
         {user && <Button onClick={onSignOutButtonClick}>Sign Out</Button>}
         <Navbar.Toggle />
       </div>
       <Navbar.Collapse>
         {user && (
-          <Navbar.Link
-            as={Link}
-            to={paths.Home}
-            active={location.pathname === paths.Home}
-          >
-            Home
-          </Navbar.Link>
+          <>
+            <Navbar.Link
+              as={Link}
+              to={paths.Home}
+              active={location.pathname === paths.Home}
+            >
+              Home
+            </Navbar.Link>
+            <Navbar.Link
+              as={Link}
+              to={paths.Portfolio}
+              active={location.pathname === paths.Portfolio}
+            >
+              Portfolio
+            </Navbar.Link>
+          </>
         )}
       </Navbar.Collapse>
     </Navbar>
