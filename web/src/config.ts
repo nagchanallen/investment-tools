@@ -11,6 +11,7 @@ const Config = {
   sentry: {
     dsn: import.meta.env.APP_SENTRY_DSN,
   },
+  apiBaseUrl: import.meta.env.APP_API_BASE_URL,
 }
 
 export default Config

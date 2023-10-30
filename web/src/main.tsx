@@ -8,6 +8,8 @@ import './index.css'
 import Config from './config'
 import { routes } from './routes'
 import AuthProvider from './providers/AuthProvider'
+import AppQueryClientProvider from './providers/AppQueryClientProvider'
+import APIClientProvider from './providers/APIClientProvider'
 
 Sentry.init({
   dsn: Config.sentry.dsn,
@@ -26,7 +28,11 @@ const router = createBrowserRouter(routes)
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <AuthProvider>
-      <RouterProvider router={router} />
+      <APIClientProvider>
+        <AppQueryClientProvider>
+          <RouterProvider router={router} />
+        </AppQueryClientProvider>
+      </APIClientProvider>
     </AuthProvider>
   </React.StrictMode>
 )
