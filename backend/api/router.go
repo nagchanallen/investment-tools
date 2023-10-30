@@ -10,7 +10,9 @@ import (
 
 func (s *Server) SetUpRouter() {
 	r := gin.Default()
-	r.Use(sentrygin.New(sentrygin.Options{}))
+	r.Use(sentrygin.New(sentrygin.Options{
+		Repanic: true,
+	}))
 
 	// TODO: Configure CORS properly
 	// we enable CORS for all origins temporarily for smoother development
