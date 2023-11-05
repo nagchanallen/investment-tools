@@ -1,8 +1,10 @@
 import { ReactElement } from 'react'
+
 import useQueryStockTransactions from '../../queries/useQueryStockTransactions'
+import StockTransactionsTable from './StockTransactionsTable'
 
 const PortfolioScreen = (): ReactElement => {
-  const { data, error } = useQueryStockTransactions({
+  const { data: queryData } = useQueryStockTransactions({
     sortDirection: 'DESC',
     orderBy: 'id',
     limit: 10,
@@ -10,8 +12,15 @@ const PortfolioScreen = (): ReactElement => {
 
   return (
     <div>
-      <h5>{JSON.stringify(data)}</h5>
-      <p>{JSON.stringify(error)}</p>
+      {queryData && (
+        <div className="p-4">
+          <StockTransactionsTable
+            stockTransactions={queryData.data}
+            totalCount={queryData.totalCount}
+            nextCursor={queryData.nextCursor ?? null}
+          />
+        </div>
+      )}
     </div>
   )
 }
