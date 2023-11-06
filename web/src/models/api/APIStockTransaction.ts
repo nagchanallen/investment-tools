@@ -1,6 +1,10 @@
 import { z } from 'zod'
 
 import { fromISOStringToUTCDateTime } from '../../utils/dateTime'
+import {
+  APIPaginationRequestSchema,
+  APIPaginationResponseSchema,
+} from './APIPagination'
 
 export const APIStockTransactionSchema = z.object({
   id: z.string().uuid(),
@@ -16,22 +20,18 @@ export const APIStockTransactionSchema = z.object({
 
 export type APIStockTransaction = z.infer<typeof APIStockTransactionSchema>
 
-export const GetStockTransactionsRequestSchema = z.object({
-  sortDirection: z.enum(['ASC', 'DESC']),
-  orderBy: z.string(),
-  limit: z.number().int(),
-  cursor: z.string().nullish(),
-})
+export const GetStockTransactionsRequestSchema = APIPaginationRequestSchema
 
 export type GetStockTransactionsRequest = z.input<
   typeof GetStockTransactionsRequestSchema
 >
 
-export const GetStockTransactionsResponseSchema = z.object({
-  data: z.array(APIStockTransactionSchema),
-  nextCursor: z.string().uuid().nullish(),
-  totalCount: z.number().int().nonnegative(),
-})
+export const GetStockTransactionsResponseSchema =
+  APIPaginationResponseSchema.merge(
+    z.object({
+      data: z.array(APIStockTransactionSchema),
+    })
+  )
 
 export type GetStockTransactionsResponse = z.output<
   typeof GetStockTransactionsResponseSchema
