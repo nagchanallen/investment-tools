@@ -34,7 +34,7 @@ func validateStockTransactionAction(action string) bool {
 type GetStockTransactionsRequest struct {
 	OrderBy       string `json:"orderBy" binding:"required"`
 	SortDirection string `json:"sortDirection" binding:"required"`
-	Limit         int    `json:"limit" binding:"required"`
+	Limit         int    `json:"limit"`
 	Cursor        string `json:"cursor"`
 }
 

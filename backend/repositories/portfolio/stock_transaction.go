@@ -66,7 +66,10 @@ func (r *StockTransactionRepository) GetStockTransactions(ctx context.Context, a
 		cursorData := cursorDoc.Data()
 		query = query.StartAfter(cursorData[args.OrderBy])
 	}
-	query = query.Limit(args.Limit)
+
+	if args.Limit > 0 {	
+		query = query.Limit(args.Limit)
+	}
 
 	iter := query.Documents(ctx)
 	snapShots, err := iter.GetAll()
