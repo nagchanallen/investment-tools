@@ -2,9 +2,11 @@ import { GetStockTransactionsRequest } from '../models/api/APIStockTransaction'
 
 const queryKeys = {
   API: () => ['api'],
-  StockTransactionsList: (request: GetStockTransactionsRequest) => [
+  Portfolio: () => ['api', 'portfolio'],
+  StockTransactionList: (request: GetStockTransactionsRequest) => [
     'api',
-    'stockTransactions',
+    'portfolio',
+    'stockTransactionList',
     request,
   ],
 }

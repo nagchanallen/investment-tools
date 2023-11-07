@@ -1,17 +1,33 @@
 import { ReactElement } from 'react'
+
 import useQueryStockTransactions from '../../queries/useQueryStockTransactions'
+import StockTransactionsTable from './StockTransactionsTable'
+import useDeleteStockTransaction from '../../queries/useDeleteStockTransaction'
 
 const PortfolioScreen = (): ReactElement => {
-  const { data, error } = useQueryStockTransactions({
+  const { data: queryData } = useQueryStockTransactions({
     sortDirection: 'DESC',
-    orderBy: 'id',
-    limit: 10,
+    orderBy: 'date',
   })
+
+  const { mutate: deleteStockTransaction } = useDeleteStockTransaction()
+
+  const onDeleteButtonClick = (id: string) => {
+    deleteStockTransaction(id)
+  }
 
   return (
     <div>
-      <h5>{JSON.stringify(data)}</h5>
-      <p>{JSON.stringify(error)}</p>
+      {queryData && (
+        <div className="p-4">
+          <StockTransactionsTable
+            stockTransactions={queryData.data}
+            totalCount={queryData.totalCount}
+            nextCursor={queryData.nextCursor ?? null}
+            onDeleteButtonClick={onDeleteButtonClick}
+          />
+        </div>
+      )}
     </div>
   )
 }
