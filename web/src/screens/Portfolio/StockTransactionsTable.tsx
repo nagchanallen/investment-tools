@@ -1,4 +1,5 @@
-import { ReactElement } from 'react'
+import { ReactElement, useMemo } from 'react'
+import { Button } from 'flowbite-react'
 import { createColumnHelper } from '@tanstack/react-table'
 
 import { AppStockTransaction } from '../../models/app/AppStockTransaction'
@@ -7,7 +8,11 @@ import { fromISOStringToUTCDate } from '../../utils/dateTime'
 
 const columnHelper = createColumnHelper<AppStockTransaction>()
 
-const columns = [
+interface TableColumnsOptions {
+  onDeleteButtonClick: (id: string) => void
+}
+
+const makeTableColumns = ({ onDeleteButtonClick }: TableColumnsOptions) => [
   columnHelper.accessor('date', {
     id: 'date',
     header: 'Date',
@@ -43,6 +48,18 @@ const columns = [
     header: 'Remark',
     cell: (info) => info.getValue() ?? '-',
   }),
+  columnHelper.display({
+    id: 'actions',
+    header: 'Actions',
+    cell: (props) => (
+      <Button
+        color="failure"
+        onClick={() => onDeleteButtonClick(props.row.original.id)}
+      >
+        Delete
+      </Button>
+    ),
+  }),
 ]
 
 interface Props {
@@ -50,10 +67,19 @@ interface Props {
   stockTransactions: AppStockTransaction[]
   totalCount: number
   nextCursor: string | null
+  onDeleteButtonClick: (id: string) => void
 }
 
 const StockTransactionsTable = (props: Props): ReactElement => {
-  const { className, stockTransactions } = props
+  const { className, stockTransactions, onDeleteButtonClick } = props
+
+  const columns = useMemo(
+    () =>
+      makeTableColumns({
+        onDeleteButtonClick,
+      }),
+    [onDeleteButtonClick]
+  )
 
   return (
     <AppDataTable

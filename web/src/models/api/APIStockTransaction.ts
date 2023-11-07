@@ -36,3 +36,11 @@ export const GetStockTransactionsResponseSchema =
 export type GetStockTransactionsResponse = z.output<
   typeof GetStockTransactionsResponseSchema
 >
+
+export const DeleteStockTransactionResponseSchema = z.object({
+  id: z.string().uuid(),
+})
+
+export type DeleteStockTransactionResponse = z.output<
+  typeof DeleteStockTransactionResponseSchema
+>

@@ -15,7 +15,7 @@ const useQueryStockTransactions = (
   const apiClient = useContext(APIClientContext)
 
   return useQuery({
-    queryKey: queryKeys.StockTransactionsList(requestData),
+    queryKey: queryKeys.StockTransactionList(requestData),
     queryFn: async () => {
       const { data } = await apiClient<GetStockTransactionsResponse>({
         method: 'POST',
