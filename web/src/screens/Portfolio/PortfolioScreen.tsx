@@ -6,8 +6,7 @@ import StockTransactionsTable from './StockTransactionsTable'
 const PortfolioScreen = (): ReactElement => {
   const { data: queryData } = useQueryStockTransactions({
     sortDirection: 'DESC',
-    orderBy: 'id',
-    limit: 10,
+    orderBy: 'date',
   })
 
   return (
