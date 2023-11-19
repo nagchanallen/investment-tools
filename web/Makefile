@@ -3,7 +3,7 @@ vendor:
 	yarn
 
 .PHONY: setup
-setup: vendor
+setup:
 	cp .env.example .env
 
 .PHONY: dev

@@ -7,7 +7,7 @@ vendor:
 	go install
 
 .PHONY: setup
-setup: vendor
+setup:
 	cp .env.example .env
 
 .PHONY: format
