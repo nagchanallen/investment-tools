@@ -67,7 +67,7 @@ func (r *StockTransactionRepository) GetStockTransactions(ctx context.Context, a
 		query = query.StartAfter(cursorData[args.OrderBy])
 	}
 
-	if args.Limit > 0 {	
+	if args.Limit > 0 {
 		query = query.Limit(args.Limit)
 	}
 
