@@ -1,0 +1,13 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - '8000:8000'
+    environment:
+      - APP_CONFIG_PATH=.env
+      - GIN_MODE=debug
+      - PORT=8000
+    volumes:
+      - ./backend:/app

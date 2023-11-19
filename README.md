@@ -11,6 +11,12 @@ A website that provides variety of tools for personal long-term investment.
 
 ### Backend
 
+#### Docker based
+
+1. Docker
+
+#### non-Docker based
+
 1. Go 1.21+
 
 ## Setup Project
@@ -63,10 +69,26 @@ For Sentry config, fill in DSN in `SENTRY_DSN`.
 
 We use [golangci-lint](https://golangci-lint.run/) for linter.
 If you want to run linter on local machine. Please follow [this link](https://golangci-lint.run/usage/install/) for installation.
+If you are using docker for development, then no need to install the linter in your machine
 
 ## Development
 
-Please refer to development section for website and backend.
+### Docker based
+
+```
+make dev
+```
+
+Before committing the code, run format and linter first and fix the issues:
+
+```
+make format
+make lint
+```
+
+### non-Docker based
+
+Please refer to development section for website and backend for non-Docker development
 
 - [Web](web/README.md)
 - [Backend](backend/README.md)
