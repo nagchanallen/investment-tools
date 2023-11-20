@@ -14,9 +14,9 @@ dev:
 .PHONY: format
 format:	
 	make -C web format
-	docker compose run --rm backend go fmt ./...
+	make -C backend format
 
 .PHONY: lint
 lint:
 	make -C web lint
-	docker run -t --rm -v $(shell pwd)/backend:/app -w /app golangci/golangci-lint:v1.55.0 golangci-lint run 
+	make -C backend lint
